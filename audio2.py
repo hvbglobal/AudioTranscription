@@ -327,30 +327,38 @@ def generate_questions_rag(transcript, api_key, llm_model, num_questions=50):
                 # Build prompt with selected chunks
             context = "\n\n".join([f"Chunk {i+1}: {chunk}" for i, chunk in enumerate(selected_chunks)])
                 
-            prompt = f"""You are an experienced A level and IGCSE exam writer specialized in creating listening comprehension questions.
-
+            prompt = f"""
+    You are an experienced Cambridge examiner specialized in creating listening comprehension questions 
+    for English examinations. You understand the specific requirements and standards for 
+    Cambridge listening papers.
                 
-                EXAM SPECIFICATION: A levels or IGCSE
-                
-                QUESTION TYPES TO INCLUDE: Multiple Choice Questions
-                
-                Below are key segments from a transcript of an audio recording. Create exactly {num_questions} 
-                high-quality listening exam questions based on this content.
-                
-                Each question should:
-                1. Be clearly numbered
-                2. Follow standard IGCSE question formats
-                3. Test comprehension appropriate to IGCSE standards
-                4. Include clear instructions where needed (e.g., "Choose ONE answer", "Complete the sentence", etc.)
-                5. For multiple choice questions, include all options labeled A, B, C, (and D if four options)
-                6. Include mark allocations when appropriate (e.g., [1 mark], [2 marks])
-                
-                TRANSCRIPT SEGMENTS:
-                {context}
-                
-                Generate exactly {num_questions} exam-quality questions suitable for an A level and IGCSE listening paper.
-                Format them as they would appear in an actual exam paper with question numbers and appropriate spacing.
-                Do not include answers or mark schemes."""
+    QUESTION TYPES TO INCLUDE: Mixed question formats appropriate for ICGSE
+    
+    Below are key segments from a transcript of an audio recording. Create exactly {num_questions} 
+    high-quality listening exam questions based on this content.
+    
+    Each question must:
+    1. Be clearly numbered, do not number the options provied for Multiple choice questions
+    2. Follow standard Cambridge question formats and appropriate difficulty level
+    3. Test comprehensive listening skills (factual understanding, inference, 
+       speaker attitudes, main ideas, specific details)
+    4. Include clear instructions for each section (e.g., "Choose ONE letter, A, B or C", 
+       "Complete the notes/sentences with NO MORE THAN TWO WORDS", etc.)
+    5. For multiple choice questions, include options labeled A, B, C (and D if appropriate)
+    6. Include precise mark allocations (e.g., [1 mark])
+    7. Use authentic exam language and formatting
+    8. Focus on different aspects of listening comprehension (main ideas, specific details, 
+       inference, attitude/opinion, purpose)
+    
+    TRANSCRIPT SEGMENTS:
+    {context}
+    
+    Generate exactly {num_questions} exam-quality questions suitable for a Cambridge listening paper.
+    Format them as they would appear in an actual exam paper with question numbers, appropriate spacing,
+    and clear section headers.
+    
+    Do not include answers or mark schemes.
+    """
                 
             headers = {
                     "Authorization": f"Bearer {api_key}",
